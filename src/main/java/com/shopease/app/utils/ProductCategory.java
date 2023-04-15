@@ -1,0 +1,15 @@
+package com.shopease.app.utils;
+
+public enum ProductCategory {
+    ELECTRONICS,
+    HOME_AND_KITCHEN,
+    CLOTHING_AND_ACCESSORIES,
+    BEAUTY_AND_PERSONAL_CARE,
+    SPORTS_AND_OUTDOORS,
+    HEALTH_AND_WELLNESS,
+    BOOKS_AND_MEDIA,
+    TOYS_AND_GAMES,
+    PETS,
+    FOOD_AND_DRINK
+}
+
