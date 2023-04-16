@@ -22,27 +22,27 @@ public class ProductService {
 
     public List<ProductInfo> getProducts() {
         return this.productRepository.findAll()
-                .stream().map(product -> ProductMapper.toProductInfo(product))
+                .stream().map(ProductMapper.INSTANCE::toProductInfo)
                 .collect(Collectors.toList());
     }
 
     public ProductInfo getProduct(String guid) {
         return this.productRepository.findByGuid(guid)
-                .map(ProductMapper::toProductInfo)
+                .map(ProductMapper.INSTANCE::toProductInfo)
                 .orElseThrow();
     }
 
     public ProductInfo addProduct(ProductInfo productInfo) {
-        Product product = this.productRepository.save(ProductMapper.toProduct(productInfo));
-        return ProductMapper.toProductInfo(product);
+        Product product = this.productRepository.save(ProductMapper.INSTANCE.toProduct(productInfo));
+        return ProductMapper.INSTANCE.toProductInfo(product);
     }
 
     public ProductInfo updateProduct(String guid, ProductInfo productInfo) {
         return this.productRepository.findByGuid(guid)
                 .map(product -> {
-                            ProductMapper.toExistingProduct(productInfo, product);
+                            ProductMapper.INSTANCE.toExistingProduct(productInfo, product);
                             this.productRepository.save(product);
-                            return ProductMapper.toProductInfo(product);
+                            return ProductMapper.INSTANCE.toProductInfo(product);
                         }
                 ).orElseThrow();
     }

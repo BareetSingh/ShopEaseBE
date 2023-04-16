@@ -2,50 +2,20 @@ package com.shopease.app.services.mappers;
 
 import com.shopease.app.domain.entities.Product;
 import com.shopease.app.domain.values.ProductInfo;
+import org.mapstruct.*;
+import org.mapstruct.factory.Mappers;
 
-public class ProductMapper {
+@Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface ProductMapper {
 
-    public static Product toProduct(ProductInfo productInfo) {
-        Product product = new Product();
-        product.setProductName(productInfo.getProductName());
-        product.setProductCategory(productInfo.getProductCategory());
-        product.setPrice(productInfo.getPrice());
-        product.setBrand(productInfo.getBrand());
-        product.setDescription(productInfo.getDescription());
-        product.setMainImageUrl(productInfo.getMainImageUrl());
-        return product;
-    }
+    ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
-    public static void toExistingProduct(ProductInfo productInfo, Product product) {
+    @Mapping(target = "guid", ignore = true)
+    Product toProduct(ProductInfo productInfo);
 
-        if (productInfo.getProductName() != null) {
-            product.setProductName(productInfo.getProductName());
-        }
-        if (productInfo.getProductCategory() != null) {
-            product.setProductCategory(productInfo.getProductCategory());
-        }
-        if (productInfo.getPrice() != null) {
-            product.setPrice(productInfo.getPrice());
-        }
-        if (productInfo.getDescription() != null) {
-            product.setDescription(productInfo.getDescription());
-        }
-        if (productInfo.getBrand() != null) {
-            product.setBrand(productInfo.getBrand());
-        }
-        if (productInfo.getMainImageUrl() != null) {
-            product.setMainImageUrl(productInfo.getMainImageUrl());
-        }
-    }
+    @Mapping(target = "guid", ignore = true)
+    @InheritInverseConfiguration
+    void toExistingProduct(ProductInfo productInfo, @MappingTarget Product product);
 
-    public static ProductInfo toProductInfo(Product product) {
-        ProductInfo productInfo = new ProductInfo();
-        productInfo.setGuid(product.getGuid());
-        productInfo.setProductName(product.getProductName());
-        productInfo.setProductCategory(product.getProductCategory());
-        productInfo.setPrice(product.getPrice());
-        productInfo.setBrand(product.getBrand());
-        productInfo.setMainImageUrl(product.getMainImageUrl());
-        return productInfo;
-    }
+    ProductInfo toProductInfo(Product product);
 }
